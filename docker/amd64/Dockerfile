@@ -107,9 +107,9 @@ COPY docker/start.sh /start.sh
 
 HEALTHCHECK --interval=60s --timeout=10s CMD ["/healthcheck.sh"]
 
-RUN sudo mkdir /mnt/bw-data
+RUN mkdir /mnt/bw-data
 RUN if [ ! -d "/etc/smbcredentials" ]; then \
-sudo mkdir /etc/smbcredentials \
+mkdir /etc/smbcredentials \
 fi
 
 ENV SMB_USERNAME="username"
@@ -117,14 +117,14 @@ ENV SMB_PASSWORD="password"
 ENV DATA_FOLDER="/bw-data"
 
 RUN if [ ! -f "/etc/smbcredentials/enumispkisamplestorage.cred" ]; then \
-    sudo bash -c 'echo "username=$SMB_USERNAME" >> /etc/smbcredentials/enumispkisamplestorage.cred' \
-    sudo bash -c 'echo "password=$SMB_PASSWORD" >> /etc/smbcredentials/enumispkisamplestorage.cred' \
+    bash -c 'echo "username=$SMB_USERNAME" >> /etc/smbcredentials/enumispkisamplestorage.cred' \
+    bash -c 'echo "password=$SMB_PASSWORD" >> /etc/smbcredentials/enumispkisamplestorage.cred' \
 fi
 
-RUN sudo chmod 600 /etc/smbcredentials/enumispkisamplestorage.cred 
+RUN chmod 600 /etc/smbcredentials/enumispkisamplestorage.cred 
 
-RUN sudo bash -c 'echo "//enumispkisamplestorage.file.core.windows.net/bitwarden-test /mnt/bw-data cifs nofail,vers=3.0,credentials=/etc/smbcredentials/enumispkisamplestorage.cred,dir_mode=0777,file_mode=0777,serverino" >> /etc/fstab'
-RUN sudo mount -t cifs //enumispkisamplestorage.file.core.windows.net/bitwarden-test /mnt/bw-data -o vers=3.0,credentials=/etc/smbcredentials/enumispkisamplestorage.cred,dir_mode=0777,file_mode=0777,serverino
+RUN bash -c 'echo "//enumispkisamplestorage.file.core.windows.net/bitwarden-test /mnt/bw-data cifs nofail,vers=3.0,credentials=/etc/smbcredentials/enumispkisamplestorage.cred,dir_mode=0777,file_mode=0777,serverino" >> /etc/fstab'
+RUN mount -t cifs //enumispkisamplestorage.file.core.windows.net/bitwarden-test /mnt/bw-data -o vers=3.0,credentials=/etc/smbcredentials/enumispkisamplestorage.cred,dir_mode=0777,file_mode=0777,serverino
 
 # Configures the startup!
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
