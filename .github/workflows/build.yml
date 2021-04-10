@@ -53,7 +53,7 @@ jobs:
         uses: docker/login-action@v1.8.0
         with:
           # Server address of Docker registry. If not set then will default to Docker Hub
-          registry: ${{ secrets.DOCKER_REPO }}
+          registry: ${{ secrets.DOCKER_REGISTRY }}
           # Username used to log against the Docker registry
           username: ${{ secrets.DOCKER_USERNAME }}
           # Password or personal access token used to log against the Docker registry
