@@ -60,7 +60,7 @@ jobs:
       #  run: sudo cat /etc/resolve.conf
 
       - name: Login to Docker
-        uses: docker/login-action@v1.8.0
+        uses: docker/login-action@latest
         with:
           #registry: ${{ secrets.DOCKER_REGISTRY }}
           registry: reg.dockerize.io
@@ -74,7 +74,7 @@ jobs:
           token: ${secrets.GITHUB_TOKEN}
           repository_owner: dani-garcia 
           repository_name: bitwarden_rs
-          workflow_name: Build
+          workflow_name: build
           branch_name: master
           download_path: /dist
           download_filename: bitwarden.zip
