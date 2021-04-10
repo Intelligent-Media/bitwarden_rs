@@ -23,7 +23,7 @@ jobs:
             host-triple: x86_64-unknown-linux-gnu
             features: "sqlite,mysql,postgresql"
             channel: nightly
-            os: ubuntu-18.04
+            os: ubuntu-20.04
             ext:
           # - target-triple: x86_64-unknown-linux-gnu
           #   host-triple: x86_64-unknown-linux-gnu
@@ -47,12 +47,6 @@ jobs:
     name: Building ${{ matrix.channel }}-${{ matrix.target-triple }}
     runs-on: ${{ matrix.os }}
     steps:
-
-      - name: Setup DNS 
-        shell: bash
-        run: |          
-          sudo echo "nameserver 8.8.8.8" >> "/etc/resolv.conf"
-          sudo echo "nameserver 8.8.4.4" >> "/etc/resolv.conf"
 
       - name: Login to Docker
         uses: docker/login-action@v1.8.0
