@@ -49,12 +49,15 @@ jobs:
       - name: Print /run/resolvconf/resolv.conf
         run: cat /run/resolvconf/resolv.conf
         
-      - name: Print /etc/resolve.conf
+      - name: Print /etc/resolve.conf (Pre symbolic link) 
         run: sudo cat /etc/resolve.conf
         continue-on-error: true
          
       - name: Create resolve.conf symbolic link
         run: sudo ln -sf /run/resolvconf/resolv.conf /etc/resolv.conf
+        
+      - name: Print /etc/resolve.conf (Post symbolic link) 
+        run: sudo cat /etc/resolve.conf
 
       - name: Login to Docker
         uses: docker/login-action@v1.8.0
