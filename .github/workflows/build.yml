@@ -51,8 +51,19 @@ jobs:
       - name: Debugging
         run: |
         
+          echo "## printenv"
+          echo "## X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X"
+
+          printenv
+
+          echo "## ifconfig"
+          echo "## X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X"
+
           ifconfig
         
+          echo "## cat /etc/resolv.conf"
+          echo "## X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X"
+
           cat /etc/resolv.conf
                
       - name: Login to Docker
