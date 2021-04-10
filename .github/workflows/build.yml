@@ -52,7 +52,7 @@ jobs:
         run: ifconfig
         
       - name: Login to Docker
-        run: cvat /etc/resolv.conf
+        run: cat /etc/resolv.conf
         
       - name: Login to Docker
         run: |
