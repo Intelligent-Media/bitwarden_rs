@@ -61,12 +61,13 @@ jobs:
 
       - name: ping registry
         shell: bash
-        run: ping -c 4 ${{ secrets.DOCKER_REGISTRY }}
+        run: ping -c 4 reg.dockerize.io
 
       - name: Login to Docker
         uses: docker/login-action@v1.8.0
         with:
-          registry: ${{ secrets.DOCKER_REGISTRY }}
+          #registry: ${{ secrets.DOCKER_REGISTRY }}
+          registry: reg.dockerize.io
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           logout: true
