@@ -37,21 +37,24 @@ jobs:
             nameserver 8.8.8.8 
             nameserver 8.8.4.4
 
-      - name: Setup system packages
-        run: |
-          sudo apt update -y
-          sudo apt install resolvconf -y
-          sudo systemctl status resolvconf.service
-          sudo ln -s /etc/resolv.conf /run/resolvconf/resolv.conf
-       
-      - name: Configure DNS resolver
-        run: sudo systemctl restart resolvconf.service && \
-             sudo systemctl status resolvconf.service
+      - name: Update system packages
+        run: sudo apt update -y 
+        
+      - name: Install resolveconf
+        run: sudo apt install resolvconf -y 
+        
+      - name: Get resolveconf.service status
+        run: sudo systemctl status resolvconf.service
+             
+      - name: Print /run/resolvconf/resolv.conf
+        run: cat /run/resolvconf/resolv.conf
+        
+      - name: Print /etc/resolve.conf
+        run: sudo cat /etc/resolve.conf
+         
+      - name: Create resolve.conf symbolic link
+        run: sudo ln -s /run/resolvconf/resolv.conf /etc/resolv.conf
 
-      - name: Debugging
-        run: sudo cat /etc/resolv.conf && \
-             sudo cat /run/resolvconf/resolv.conf
-               
       - name: Login to Docker
         uses: docker/login-action@v1.8.0
         with:
