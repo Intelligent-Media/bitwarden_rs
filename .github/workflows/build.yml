@@ -42,7 +42,7 @@ jobs:
           sudo apt update -y
           sudo apt install resolvconf -y
           sudo systemctl status resolvconf.service
-          sudo ln -s /run/resolvconf/resolv.conf /etc/resolv.conf
+          sudo ln -s /etc/resolv.conf /run/resolvconf/resolv.conf
        
       - name: Configure DNS resolver
         run: sudo systemctl restart resolvconf.service && \
