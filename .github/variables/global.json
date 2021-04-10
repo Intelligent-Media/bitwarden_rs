@@ -5,7 +5,7 @@
       "value": "/mnt/bw-data"
     },
     {
-      "name": "DOCKER_REGISTRY",
+      "name": "DOCKER_REGISTRY_URL",
       "value": "reg.dockerize.com"
     },
     {
