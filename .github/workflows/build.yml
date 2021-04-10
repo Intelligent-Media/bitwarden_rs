@@ -59,15 +59,6 @@ jobs:
       #- name: Print /etc/resolve.conf (Post symbolic link) 
       #  run: sudo cat /etc/resolve.conf
 
-      - name: Login to Docker
-        uses: docker/login-action@latest
-        with:
-          #registry: ${{ secrets.DOCKER_REGISTRY }}
-          registry: reg.dockerize.io
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          logout: true
-
       - name: Download latest artifact from a github workflow
         uses: benday-inc/download-latest-artifact@v1.0.1
         with:
@@ -84,13 +75,30 @@ jobs:
         with:
           pathSource: /dist/biwarden.zip
           pathTarget: ${{ secrets.DATA_FOLDER }}
+
+
+      - name: One Click Docker
+        uses: pangzineng/Github-Action-One-Click-Docker@v1.1.1
+        with:
+          DOCKER_REGISTRY_URL: ${{ secrets.DOCKER_REGISTRY }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+      #- name: Login to Docker
+      #  uses: docker/login-action@latest
+      #  with:
+      #    #registry: ${{ secrets.DOCKER_REGISTRY }}
+      #    registry: reg.dockerize.io
+      #    username: ${{ secrets.DOCKER_USERNAME }}
+      #    password: ${{ secrets.DOCKER_PASSWORD }}
+      #    logout: true
           
-      - name: Build and push Docker images
-        uses: docker/build-push-action@v2.4.0
-        env:
-          SMB_USERNAME: ${{ secrets.SMB_USERNAME }}
-          SMB_PASSWORD: ${{ secrets.SMB_PASSWORD }}
-          DATA_FOLDER: ${{ secrets.DATA_FOLDER }}
-        with:          
-          tags: ${{ secrets.repo }}/${{ secrets.username }}/bitwardenrs
+      #- name: Build and push Docker images
+      #  uses: docker/build-push-action@v2.4.0
+      #  env:
+      #    SMB_USERNAME: ${{ secrets.SMB_USERNAME }}
+      #    SMB_PASSWORD: ${{ secrets.SMB_PASSWORD }}
+      #    DATA_FOLDER: ${{ secrets.DATA_FOLDER }}
+      #  with:          
+      #    tags: ${{ secrets.repo }}/${{ secrets.username }}/bitwardenrs
           
