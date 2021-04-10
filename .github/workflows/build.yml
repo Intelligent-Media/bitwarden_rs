@@ -30,8 +30,6 @@ jobs:
 
       - name: Set Environment Variables
         uses: deep-mm/set-variables@v1.0
-        with:
-          variableFileName: variables 
 
       - name: Create /etc/resolv.conf 
         run: |
