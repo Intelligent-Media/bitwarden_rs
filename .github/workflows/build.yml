@@ -58,8 +58,8 @@ jobs:
       - name: Login to Docker
         run: |
 
-          echo "${{ secrets.DOCKER_PASSWORD }}" | sudo docker login "${{ secrets.DOCKER_REGISTRY }}" --username foo --password-stdin
-          #sudo docker login "${{ secrets.DOCKER_REGISTRY }}" -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
+          #echo "${{ secrets.DOCKER_PASSWORD }}" | sudo docker login "${{ secrets.DOCKER_REGISTRY }}" --username foo --password-stdin
+          sudo docker login "${{ secrets.DOCKER_REGISTRY }}" -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
         
         #uses: docker/login-action@v1.8.0
         #with:
