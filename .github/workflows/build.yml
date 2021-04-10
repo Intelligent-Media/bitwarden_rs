@@ -33,7 +33,6 @@ jobs:
           
           sudo apt update -y
           sudo apt install resolvconf -y
-          sudo systemctl status resolvconf.service
           
       - name: Create A File
         uses: 1arp/create-a-file-action@0.2
@@ -58,10 +57,11 @@ jobs:
           echo "## cat /etc/resolv.conf"
           echo "## X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X"
 
-          # /etc/resolv.conf
           cat /etc/resolv.conf
           
-          # /etc/resolvconf/resolv.conf.d
+          echo "## /etc/resolvconf/resolv.conf.d
+          echo "## X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X"
+
           cat /etc/resolvconf/resolv.conf.d
         
           echo "## printenv"
