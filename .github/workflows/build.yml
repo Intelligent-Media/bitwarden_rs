@@ -56,33 +56,7 @@ jobs:
 
       - name: Debugging
         run: |
-        
-          echo "## cat /run/resolvconf/resolv.conf"
-          echo "## X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X"
 
-          sudo cat /run/resolvconf/resolv.conf
-          sudo ln -sf /run/resolvconf/resolv.conf /etc/resolve.conf
-
-          echo "## cat /etc/resolv.conf"
-          echo "## X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X"
-
-          cat /etc/resolv.conf
-          
-          echo "## /etc/resolvconf/resolv.conf.d
-          echo "## X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X"
-
-          cat /etc/resolvconf/resolv.conf.d
-        
-          echo "## printenv"
-          echo "## X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X"
-
-          printenv | sort
-
-          echo "## ifconfig"
-          echo "## X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X"
-
-          ifconfig
-        
           echo "## cat /etc/resolv.conf"
           echo "## X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X"
 
