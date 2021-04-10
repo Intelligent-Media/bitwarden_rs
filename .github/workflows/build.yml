@@ -50,7 +50,7 @@ jobs:
         uses: docker/login-action@v1.8.0
         with:
           # Server address of Docker registry. If not set then will default to Docker Hub
-          registry: reg.dockerize.io
+          registry: ${{ secrets.repo }}
           # Username used to log against the Docker registry
           username: ${{ secrets.username }}
           # Password or personal access token used to log against the Docker registry
@@ -133,7 +133,7 @@ jobs:
         # uses: docker/build-push-action@e1b7f96249f2e4c8e4ac1519b9608c0d48944a1f
         uses: docker/build-push-action@v2.4.0
         with:
-          tags: reg.dockerize.io/${{ secrets.username }}/bitwardenrs
+          tags: ${{ secrets.repo }}/${{ secrets.username }}/bitwardenrs
           
 
       ## This is not used at the moment
