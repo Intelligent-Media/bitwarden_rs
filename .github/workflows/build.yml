@@ -42,15 +42,15 @@ jobs:
           sudo apt update -y
           sudo apt install resolvconf -y
           sudo systemctl status resolvconf.service
-          ln -s /run/resolvconf/resolv.conf /etc/resolv.conf
+          sudo ln -s /run/resolvconf/resolv.conf /etc/resolv.conf
        
       - name: Configure DNS resolver
         run: sudo systemctl restart resolvconf.service && \
              sudo systemctl status resolvconf.service
 
       - name: Debugging
-        run: cat /etc/resolv.conf && \
-             cat /run/resolvconf/resolv.conf
+        run: sudo cat /etc/resolv.conf && \
+             sudo cat /run/resolvconf/resolv.conf
                
       - name: Login to Docker
         uses: docker/login-action@v1.8.0
