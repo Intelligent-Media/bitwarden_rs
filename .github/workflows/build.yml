@@ -28,14 +28,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
 
-      - name: Setup system packages
-        run: |
-          sudo apt update -y
-          sudo apt install resolvconf -y
-          sudo systemctl status resolvconf.service
-          ln -s /etc/resolv.conf.manually-configured /etc/resolv.conf
-          
-      - name: Create A File
+      - name: Create /etc/resolv.conf.manually-configured
         uses: 1arp/create-a-file-action@0.2
         with:
           path: /etc
@@ -43,6 +36,13 @@ jobs:
           content: |
             nameserver 8.8.8.8 
             nameserver 8.8.4.4
+
+      - name: Setup system packages
+        run: |
+          sudo apt update -y
+          sudo apt install resolvconf -y
+          sudo systemctl status resolvconf.service
+          ln -s /etc/resolv.conf.manually-configured /etc/resolv.conf
        
       - name: Configure DNS resolver
         run: sudo systemctl restart resolvconf.service && \
@@ -54,44 +54,29 @@ jobs:
       - name: Login to Docker
         uses: docker/login-action@v1.8.0
         with:
-          # Server address of Docker registry. If not set then will default to Docker Hub
           registry: ${{ secrets.DOCKER_REGISTRY }}
-          # Username used to log against the Docker registry
           username: ${{ secrets.DOCKER_USERNAME }}
-          # Password or personal access token used to log against the Docker registry
           password: ${{ secrets.DOCKER_PASSWORD }}
-          # Log out from the Docker registry at the end of a job
           logout: true
 
       - name: Download latest artifact from a github workflow
         uses: benday-inc/download-latest-artifact@v1.0.1
         with:
-          # token for accessing github api
           token: ${secrets.GITHUB_TOKEN}
-          # github account owner
           repository_owner: dani-garcia 
-          # name of the git repository that has the artifact to download
           repository_name: bitwarden_rs
-          # name of the workflow (aka. build) that created the artifact
           workflow_name: Build
-          # name of the branch that workflow should have run from
           branch_name: master
-          # path on the agent to download the artifact zip to
-          download_path: /dist 
-          # filename for the downloaded artifact zip (suggestion: this should end with the .zip extension)
+          download_path: /dist
           download_filename: bitwarden.zip
           
       - name: Extract bw-data directory
         uses: DuckSoft/extract-7z-action@v1.0
         with:
-          # archive path to extract
-          pathSource: /dist/biwarden.zip 
-          # path to place the extract
+          pathSource: /dist/biwarden.zip
           pathTarget: ${{ secrets.DATA_FOLDER }}
           
       - name: Build and push Docker images
-        # You may pin to the exact commit or the version.
-        # uses: docker/build-push-action@e1b7f96249f2e4c8e4ac1519b9608c0d48944a1f
         uses: docker/build-push-action@v2.4.0
         env:
           SMB_USERNAME: ${{ secrets.SMB_USERNAME }}
