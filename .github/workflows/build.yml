@@ -30,6 +30,11 @@ jobs:
 
       - name: Set Environment Variables
         uses: deep-mm/set-variables@v1.0
+        with:
+          variableFileName: global
+
+      - name: View Environment Vartiables
+        run: printenv | sort
 
       - name: Create /etc/resolv.conf 
         run: |
@@ -40,31 +45,16 @@ jobs:
           sudo touch $RESOLVCONF
           sudo echo "nameserver 8.8.8.8" >> $RESOLVCONF
           sudo echo "nameserver 8.8.4.4" >> $RESOLVCONF
-          
-      #- name: Update system packages
-      #  run: sudo apt update -y 
-      #  
-      #- name: Install resolveconf
-      #  run: sudo apt install resolvconf -y 
-      #  
-      #- name: Get resolveconf.service status
-      #  run: sudo systemctl status resolvconf.service
-      #       
-      #- name: Print /run/resolvconf/resolv.conf
-      #  run: cat /run/resolvconf/resolv.conf
-      #  
-      #- name: Print /etc/resolve.conf (Pre symbolic link) 
-      #  run: sudo cat /etc/resolve.conf
-      #  continue-on-error: true
-      #   
-      #- name: Create resolve.conf symbolic link
-      #  run: sudo ln -sf /run/resolvconf/resolv.conf /etc/resolv.conf
-      #  
-      #- name: Print /etc/resolve.conf (Post symbolic link) 
-      #  run: sudo cat /etc/resolve.conf
 
-      - name: Environment 
-        run: printenv | sort
+      - name: Docker Extract
+        # You may pin to the exact commit or the version.
+        # uses: shrink/actions-docker-extract@7d86f1b9adc7afe4a64e13fb425872a547d6afa3
+        uses: shrink/actions-docker-extract@v1
+        with:
+          # Docker Image to extract files from
+            image: ${{ env.BITWARDEN_IMAGE }}
+          # Path (from root) to a file or directory within Image
+          path: 
 
       - name: Download latest artifact from a github workflow
         uses: benday-inc/download-latest-artifact@v1.0.1
@@ -74,21 +64,21 @@ jobs:
           repository_name: bitwarden_rs
           workflow_name: Build
           branch_name: master
-          download_path: /home/runner/dist
-          download_filename: bitwarden.zip
+          download_path: ${{ env.DIST_ROOT}}
+          download_filename: ${{ env.DIST_FILENAME }}
           
       - name: Extract bw-data directory
         uses: DuckSoft/extract-7z-action@v1.0
         with:
-          pathSource: /home/runner/dist/bitwarden.zip
-          pathTarget: ${{ secrets.DATA_FOLDER }}
+          pathSource: ${{ env.DIST_ROOT }}${{}}
+          pathTarget: ${{ env.DATA_FOLDER }}
 
 
       - name: One Click Docker
         uses: pangzineng/Github-Action-One-Click-Docker@v1.1.1
         with:
-          DOCKER_REGISTRY_URL: ${{ secrets.DOCKER_REGISTRY }}
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_REGISTRY_URL: ${{ env.DOCKER_REGISTRY }}
+          DOCKER_USERNAME: ${{ env.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
       #- name: Login to Docker
