@@ -50,6 +50,11 @@ jobs:
        
       - name: Debugging
         run: |
+
+          echo "## cat /etc/resolv.conf"
+          echo "## X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X"
+
+          cat /etc/resolv.conf
         
           echo "## printenv"
           echo "## X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X"
