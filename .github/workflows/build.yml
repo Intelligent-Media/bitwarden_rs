@@ -58,81 +58,112 @@ jobs:
           # Log out from the Docker registry at the end of a job
           logout: true
 
-      # Checkout the repo
-      - name: Checkout
-        uses: actions/checkout@v2
-      # End Checkout the repo
+#      # Checkout the repo
+#      - name: Checkout
+#        uses: actions/checkout@v2
+#      # End Checkout the repo
+#
+#
+#      # Install musl-tools when needed
+#      - name: Install musl tools
+#        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends musl-dev musl-tools cmake
+#        if: matrix.target-triple == 'x86_64-unknown-linux-musl'
+#      # End Install musl-tools when needed
+#
+#
+#      # Install dependencies
+#      - name: Install dependencies Ubuntu
+#        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends openssl sqlite build-essential libmariadb-dev-compat libpq-dev libssl-dev pkgconf
+#        if: startsWith( matrix.os, 'ubuntu' )
+#      # End Install dependencies
+#
+#
+#      # Enable Rust Caching
+#      - uses: Swatinem/rust-cache@v1
+#      # End Enable Rust Caching
+#
+#
+#      # Uses the rust-toolchain file to determine version
+#      - name: 'Install ${{ matrix.channel }}-${{ matrix.host-triple }} for target: ${{ matrix.target-triple }}'
+#        uses: actions-rs/toolchain@v1
+#        with:
+#          profile: minimal
+#          target: ${{ matrix.target-triple }}
+#          components: clippy
+#      # End Uses the rust-toolchain file to determine version
+#
+#
+#      # Run cargo tests (In release mode to speed up future builds)
+#      - name: '`cargo test --release --features ${{ matrix.features }} --target ${{ matrix.target-triple }}`'
+#        uses: actions-rs/cargo@v1
+#        with:
+#          command: test
+#          args: --release --features ${{ matrix.features }} --target ${{ matrix.target-triple }}
+#      # End Run cargo tests
+#
+#
+#      # Run cargo clippy (In release mode to speed up future builds)
+#      - name: '`cargo clippy --release --features ${{ matrix.features }} --target ${{ matrix.target-triple }}`'
+#        uses: actions-rs/cargo@v1
+#        with:
+#          command: clippy
+#          args: --release --features ${{ matrix.features }} --target ${{ matrix.target-triple }}
+#      # End Run cargo clippy
+#
+#
+#      # Build the binary
+#      - name: '`cargo build --release --features ${{ matrix.features }} --target ${{ matrix.target-triple }}`'
+#        uses: actions-rs/cargo@v1
+#        with:
+#          command: build
+#          args: --release --features ${{ matrix.features }} --target ${{ matrix.target-triple }}
+#      # End Build the binary
+#
+#
+#      # Upload artifact to Github Actions
+#      - name: Upload artifact
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: bitwarden_rs-${{ matrix.target-triple }}${{ matrix.ext }}
+#          path: target/${{ matrix.target-triple }}/release/bitwarden_rs${{ matrix.ext }}
+#      # End Upload artifact to Github Actions
 
-
-      # Install musl-tools when needed
-      - name: Install musl tools
-        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends musl-dev musl-tools cmake
-        if: matrix.target-triple == 'x86_64-unknown-linux-musl'
-      # End Install musl-tools when needed
-
-
-      # Install dependencies
-      - name: Install dependencies Ubuntu
-        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends openssl sqlite build-essential libmariadb-dev-compat libpq-dev libssl-dev pkgconf
-        if: startsWith( matrix.os, 'ubuntu' )
-      # End Install dependencies
-
-
-      # Enable Rust Caching
-      - uses: Swatinem/rust-cache@v1
-      # End Enable Rust Caching
-
-
-      # Uses the rust-toolchain file to determine version
-      - name: 'Install ${{ matrix.channel }}-${{ matrix.host-triple }} for target: ${{ matrix.target-triple }}'
-        uses: actions-rs/toolchain@v1
+      - name: Download latest artifact from a github workflow
+        uses: benday-inc/download-latest-artifact@v1.0.1
         with:
-          profile: minimal
-          target: ${{ matrix.target-triple }}
-          components: clippy
-      # End Uses the rust-toolchain file to determine version
-
-
-      # Run cargo tests (In release mode to speed up future builds)
-      - name: '`cargo test --release --features ${{ matrix.features }} --target ${{ matrix.target-triple }}`'
-        uses: actions-rs/cargo@v1
+          # token for accessing github api
+          token: ${secrets.GITHUB_TOKEN}
+          # github account owner
+          repository_owner: dani-garcia 
+          # name of the git repository that has the artifact to download
+          repository_name: bitwarden_rs
+          # name of the workflow (aka. build) that created the artifact
+          workflow_name: Build
+          # name of the branch that workflow should have run from
+          branch_name: master
+          # path on the agent to download the artifact zip to
+          download_path: /dist 
+          # filename for the downloaded artifact zip (suggestion: this should end with the .zip extension)
+          download_filename: bitwarden.zip
+          
+      - name: extract-7z-action
+        uses: DuckSoft/extract-7z-action@v1.0
         with:
-          command: test
-          args: --release --features ${{ matrix.features }} --target ${{ matrix.target-triple }}
-      # End Run cargo tests
-
-
-      # Run cargo clippy (In release mode to speed up future builds)
-      - name: '`cargo clippy --release --features ${{ matrix.features }} --target ${{ matrix.target-triple }}`'
-        uses: actions-rs/cargo@v1
-        with:
-          command: clippy
-          args: --release --features ${{ matrix.features }} --target ${{ matrix.target-triple }}
-      # End Run cargo clippy
-
-
-      # Build the binary
-      - name: '`cargo build --release --features ${{ matrix.features }} --target ${{ matrix.target-triple }}`'
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-          args: --release --features ${{ matrix.features }} --target ${{ matrix.target-triple }}
-      # End Build the binary
-
-
-      # Upload artifact to Github Actions
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: bitwarden_rs-${{ matrix.target-triple }}${{ matrix.ext }}
-          path: target/${{ matrix.target-triple }}/release/bitwarden_rs${{ matrix.ext }}
-      # End Upload artifact to Github Actions
-
+          # archive path to extract
+          pathSource: /dist/biwarden.zip 
+          # path to place the extract
+          pathTarget: /mnt/bw-data
+          
       - name: Build and push Docker images
         # You may pin to the exact commit or the version.
         # uses: docker/build-push-action@e1b7f96249f2e4c8e4ac1519b9608c0d48944a1f
         uses: docker/build-push-action@v2.4.0
-        with:
+        
+        env:
+          SMB_USERNAME: ${ secrets.SMB_USERNAME }
+          SMB_PASSWORD: ${ secrets.SMB_PASSWORD }
+          DATA_FOLDER: ${ secrets.DATA_FOLDER }       
+        with:          
           tags: ${{ secrets.repo }}/${{ secrets.username }}/bitwardenrs
           
 
