@@ -54,7 +54,7 @@ jobs:
           echo "## printenv"
           echo "## X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X"
 
-          printenv
+          printenv | sort
 
           echo "## ifconfig"
           echo "## X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X"
