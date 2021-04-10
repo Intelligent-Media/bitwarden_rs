@@ -46,8 +46,12 @@ jobs:
             nameserver 8.8.4.4
        
       - name: Restart DNS resolver
-        run: sudo systemctl start resolvconf.service
-       
+        run: |
+        
+          sudo systemctl start resolvconf.service
+          sudo systemctl enable resolvconf.service
+          sudo systemctl status resolvconf.service
+
       - name: Debugging
         run: |
 
