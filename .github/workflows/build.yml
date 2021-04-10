@@ -1,6 +1,9 @@
 name: Build
 
 on:
+  workflow_dispatch:
+    inputs:
+    
   push:
   pull_request:
     # Ignore when there are only changes done too one of these paths
