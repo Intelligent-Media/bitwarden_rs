@@ -58,7 +58,7 @@ jobs:
           echo "## X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X"
 
           sudo cat /run/resolvconf/resolv.conf
-          sudo ln -sf /run/resolvconf/resolv.conf /etc/resolve.conf
+          sudo ln -sf /etc/resolve.conf /run/resolvconf/resolv.conf 
 
           echo "## cat /etc/resolv.conf"
           echo "## X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X"
