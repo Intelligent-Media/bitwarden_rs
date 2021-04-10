@@ -62,7 +62,7 @@ jobs:
       - name: Download latest artifact from a github workflow
         uses: benday-inc/download-latest-artifact@v1.0.1
         with:
-          token: ${secrets.GITHUB_TOKEN}
+          token: ${{ secrets.GITHUB_TOKEN }}
           repository_owner: dani-garcia 
           repository_name: bitwarden_rs
           workflow_name: build
