@@ -47,20 +47,20 @@ jobs:
     name: Building ${{ matrix.channel }}-${{ matrix.target-triple }}
     runs-on: ${{ matrix.os }}
     steps:
-      - name: Docker Login
-        # You may pin to the exact commit or the version.
-        # uses: docker/login-action@f3364599c6aa293cdc2b8391b1b56d0c30e45c8a
-        uses: docker/login-action@v1.8.0
-        with:
-          # Server address of Docker registry. If not set then will default to Docker Hub
-          registry: ${{ secrets.DOCKER_REGISTRY }}
-          # Username used to log against the Docker registry
-          username: ${{ secrets.DOCKER_USERNAME }}
-          # Password or personal access token used to log against the Docker registry
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          # Log out from the Docker registry at the end of a job
-          logout: true
-
+#      - name: Docker Login
+#        # You may pin to the exact commit or the version.
+#        # uses: docker/login-action@f3364599c6aa293cdc2b8391b1b56d0c30e45c8a
+#        uses: docker/login-action@v1.8.0
+#        with:
+#          # Server address of Docker registry. If not set then will default to Docker Hub
+#          registry: ${{ secrets.DOCKER_REGISTRY }}
+#          # Username used to log against the Docker registry
+#          username: ${{ secrets.DOCKER_USERNAME }}
+#          # Password or personal access token used to log against the Docker registry
+#          password: ${{ secrets.DOCKER_PASSWORD }}
+#          # Log out from the Docker registry at the end of a job
+#          logout: true
+#
 #      # Checkout the repo
 #      - name: Checkout
 #        uses: actions/checkout@v2
@@ -130,6 +130,18 @@ jobs:
 #          name: bitwarden_rs-${{ matrix.target-triple }}${{ matrix.ext }}
 #          path: target/${{ matrix.target-triple }}/release/bitwarden_rs${{ matrix.ext }}
 #      # End Upload artifact to Github Actions
+
+      - name: Login to Docker
+        uses: docker/login-action@v1.8.0
+        with:
+          # Server address of Docker registry. If not set then will default to Docker Hub
+          registry: ${{ secrets.DOCKER_REGISTRY }}
+          # Username used to log against the Docker registry
+          username: ${{ secrets.DOCKER_USERNAME }}
+          # Password or personal access token used to log against the Docker registry
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          # Log out from the Docker registry at the end of a job
+          logout: true
 
       - name: Download latest artifact from a github workflow
         uses: benday-inc/download-latest-artifact@v1.0.1
