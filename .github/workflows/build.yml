@@ -10,7 +10,7 @@ on:
 jobs:
   build:
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         channel:
           - nightly
@@ -20,7 +20,7 @@ jobs:
         include:
           - target-triple: x86_64-unknown-linux-gnu
             host-triple: x86_64-unknown-linux-gnu
-            features: "sqlite,mysql,postgresql"
+            features: "sqlite"
             channel: nightly
             os: ubuntu-20.04
 
@@ -30,13 +30,13 @@ jobs:
 
       - name: Setup system packages
         run: |
-          
-          #sudo apt update -y
+      
           sudo apt install resolvconf -y
           
       - name: Create A File
         uses: 1arp/create-a-file-action@0.2
         with:
+          
           path: /etc/resolvconf/resolv.conf.d
           file: head
           content: |
@@ -58,7 +58,7 @@ jobs:
           echo "## X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X"
 
           sudo cat /run/resolvconf/resolv.conf
-          sudo ln -sf /etc/resolve.conf /run/resolvconf/resolv.conf 
+          sudo ln -sf /run/resolvconf/resolv.conf /etc/resolve.conf
 
           echo "## cat /etc/resolv.conf"
           echo "## X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X|X"
