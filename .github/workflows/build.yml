@@ -40,8 +40,8 @@ jobs:
         uses: 1arp/create-a-file-action@0.2
         with:
           
-          path: /etc/resolvconf/resolv.conf.d
-          file: head
+          path: /etc
+          file: resolv.conf
           content: |
             
             nameserver 8.8.8.8 
@@ -50,9 +50,9 @@ jobs:
       - name: Configure DNS resolver
         run: |
         
-          sudo systemctl start resolvconf.service
-          sudo systemctl enable resolvconf.service
-          sudo systemctl status resolvconf.service
+          sudo systemctl restart resolvconf.service
+          #sudo systemctl enable resolvconf.service
+          #sudo systemctl status resolvconf.service
 
       - name: Debugging
         run: |
