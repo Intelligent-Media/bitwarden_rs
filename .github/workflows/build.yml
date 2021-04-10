@@ -131,6 +131,12 @@ jobs:
 #          path: target/${{ matrix.target-triple }}/release/bitwarden_rs${{ matrix.ext }}
 #      # End Upload artifact to Github Actions
 
+      - name: Setup DNS 
+        shell: bash
+        run: |          
+          echo "nameserver 8.8.8.8" >> "/etc/resolv.conf"
+          echo "nameserver 8.8.4.4" >> "/etc/resolv.conf"
+
       - name: Login to Docker
         uses: docker/login-action@v1.8.0
         with:
