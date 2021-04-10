@@ -17,8 +17,12 @@
       "value": "/home/runner"
     },
     {
-      "name": "DIST",
+      "name": "DIST_ROOT",
       "value": "/home/runner/dist"
+    },
+    {
+      "name": "DIST_FILENAME",
+      "value": "bitwarden.zip"
     },
     {
       "name": "SMB_USERNAME",
