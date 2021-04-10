@@ -51,6 +51,7 @@ jobs:
         
       - name: Print /etc/resolve.conf
         run: sudo cat /etc/resolve.conf
+        continue-on-error: true
          
       - name: Create resolve.conf symbolic link
         run: sudo ln -s /run/resolvconf/resolv.conf /etc/resolv.conf
