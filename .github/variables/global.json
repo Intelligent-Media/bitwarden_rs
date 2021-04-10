@@ -13,6 +13,14 @@
       "value": "charlesrlindsay-d006916"
     },
     {
+      "name": "HOME",
+      "value": "/home/runner"
+    },
+    {
+      "name": "DIST",
+      "value": "/home/runner/dist"
+    },
+    {
       "name": "SMB_USERNAME",
       "value": "enumispkisamplestorage"
     }
