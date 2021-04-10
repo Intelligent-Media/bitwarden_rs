@@ -28,15 +28,21 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
 
-      - name: Create /etc/resolv.conf.manually-configured
-        uses: 1arp/create-a-file-action@0.2
+      - name: Set Environment Variables
+        uses: deep-mm/set-variables@v1.0
         with:
-          path: /etc
-          file: resolv.conf
-          content: |
-            nameserver 8.8.8.8 
-            nameserver 8.8.4.4
+          variableFileName: variables 
 
+      - name: Create /etc/resolv.conf 
+        run: |
+          RESOLVCONF="/etc/resolv.conf"
+      
+          sudo cat $RESOLVCONF
+          sudo rm -f $RESOLVCONF
+          sudo touch $RESOLVCONF
+          sudo echo "nameserver 8.8.8.8" >> $RESOLVCONF
+          sudo echo "nameserver 8.8.4.4" >> $RESOLVCONF
+          
       #- name: Update system packages
       #  run: sudo apt update -y 
       #  
@@ -70,13 +76,13 @@ jobs:
           repository_name: bitwarden_rs
           workflow_name: Build
           branch_name: master
-          download_path: ${HOME}/dist
+          download_path: /home/runner/dist
           download_filename: bitwarden.zip
           
       - name: Extract bw-data directory
         uses: DuckSoft/extract-7z-action@v1.0
         with:
-          pathSource: ${HOME}/dist/bitwarden.zip
+          pathSource: /home/runner/dist/bitwarden.zip
           pathTarget: ${{ secrets.DATA_FOLDER }}
 
 
