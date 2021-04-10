@@ -108,18 +108,14 @@ COPY docker/start.sh /start.sh
 HEALTHCHECK --interval=60s --timeout=10s CMD ["/healthcheck.sh"]
 
 RUN mkdir /mnt/bw-data
-RUN if [ ! -d "/etc/smbcredentials" ]; then \
-mkdir /etc/smbcredentials \
-fi
+RUN mkdir /etc/smbcredentials
 
 ENV SMB_USERNAME="username"
 ENV SMB_PASSWORD="password"
 ENV DATA_FOLDER="/bw-data"
 
-RUN if [ ! -f "/etc/smbcredentials/enumispkisamplestorage.cred" ]; then \
-    bash -c 'echo "username=$SMB_USERNAME" >> /etc/smbcredentials/enumispkisamplestorage.cred' \
-    bash -c 'echo "password=$SMB_PASSWORD" >> /etc/smbcredentials/enumispkisamplestorage.cred' \
-fi
+RUN bash -c 'echo "username=$SMB_USERNAME" >> /etc/smbcredentials/enumispkisamplestorage.cred' \
+    bash -c 'echo "password=$SMB_PASSWORD" >> /etc/smbcredentials/enumispkisamplestorage.cred'
 
 RUN chmod 600 /etc/smbcredentials/enumispkisamplestorage.cred 
 
