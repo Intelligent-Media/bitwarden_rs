@@ -1,0 +1,20 @@
+{
+  "variables": [
+    {
+      "name": "DATA_FOLDER",
+      "value": "/mnt/bw-data"
+    },
+    {
+      "name": "DOCKER_REGISTRY",
+      "value": "reg.dockerize.com"
+    },
+    {
+      "name": "DOCKER_USERNAME",
+      "value": "charlesrlindsay-d006916"
+    },
+    {
+      "name": "SMB_USERNAME",
+      "value": "enumispkisamplestorage"
+    }
+  ]
+}
