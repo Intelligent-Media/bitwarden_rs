@@ -31,7 +31,10 @@ jobs:
       - name: Setup system packages
         run: |
       
+          sudo apt update -y
           sudo apt install resolvconf -y
+          
+          sudo systemctl status resolvconf.service
           
       - name: Create A File
         uses: 1arp/create-a-file-action@0.2
